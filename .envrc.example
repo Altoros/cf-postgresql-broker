@@ -1,0 +1,20 @@
+#!/bin/bash
+
+export BROKER_NAME=cf-postgresql-broker
+
+export AUTH_USER=admin
+export AUTH_PASSWORD=admin
+
+export PG_SOURCE=postgresql://postgres:pass@localhost:5432/postgres?sslmode=disable
+export PG_SERVICES='[{
+  "id": "service-1-{GUID}",
+  "name": "cf-postgresql-broker",
+  "description": "DBasS",
+  "bindable": true,
+  "plan_updateable": false,
+  "plans": [{
+    "id": "plan-1-{GUID}",
+    "name": "basic",
+    "description": "Shared plan"
+  }]
+}]'
