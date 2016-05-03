@@ -1,53 +1,71 @@
 # cf-postgresql-broker
 
-PostgreSQL service broker for the cloud foundry.
+PostgreSQL service broker for the Cloud Foundry (Diego compatible).
 
 ## Installation
 
-```bash
-BROKER_NAME=cf-postgresql-broker
-PLAN_NAME=basic
-SERVICE_NAME=pgsql
+Push the code base to the Cloud Foundry.
 
-AUTH_USER=admin
-AUTH_PASSWORD=admin
-PG_SOURCE=postgresql://username:password@host:port/dbname
-PG_SERVICES="[{
-  \"id\": \"service-1-{GUID}\",
-  \"name\": \"$BROKER_NAME\",
-  \"description\": \"DBaaS\",
-  \"bindable\": true,
-  \"plan_updateable\": false,
-  \"plans\": [{
-    \"id\": \"plan-1-{GUID}\",
-    \"name\": \"$PLAN_NAME\",
-    \"description\": \"Shared plan\"
+```
+$ go get github.com/altoros/cf-postgresql-broker
+$ cd $GOPATH/src/github.com/altoros/cf-postgresql-broker
+$ cf push postgresql --no-start -m 128M -k 256M
+```
+
+Set environment.
+
+* `PG_SERVICES` can be customized according to [this go library](https://github.com/pivotal-cf/brokerapi/blob/master/catalog.go#L3)
+* `{GUID}` for `id` attributes will be replaced with its runtime value
+
+```
+$ AUTH_USER=admin
+$ AUTH_PASSWORD=admin
+$ PG_SOURCE=postgresql://username:password@host:port/dbname
+$ PG_SERVICES='[{
+  "id": "service-1-{GUID}",
+  "name": "postgresql",
+  "description": "DBaaS",
+  "bindable": true,
+  "plan_updateable": false,
+  "plans": [{
+    "id": "plan-1-{GUID}",
+    "name": "basic",
+    "description": "Shared plan"
   }]
-}]"
+}]'
 
-# Deploy to Cloud Foundry
-go get github.com/altoros/cf-postgresql-broker
-cd $GOPATH/src/github.com/altoros/cf-postgresql-broker
-cf push $BROKER_NAME --no-start -m 128M -k 256M
-cf set-env $BROKER_NAME PG_SOURCE "$PG_SOURCE"
-cf set-env $BROKER_NAME PG_SERVICES "$PG_SERVICES"
-cf set-env $BROKER_NAME AUTH_USER "$AUTH_USER"
-cf set-env $BROKER_NAME AUTH_PASSWORD "$AUTH_PASSWORD"
-cf start $BROKER_NAME
+$ cf set-env postgresql PG_SOURCE "$PG_SOURCE"
+$ cf set-env postgresql PG_SERVICES "$PG_SERVICES"
+$ cf set-env postgresql AUTH_USER "$AUTH_USER"
+$ cf set-env postgresql AUTH_PASSWORD "$AUTH_PASSWORD"
+```
 
-# Register service broker
-BROKER_URL=$(cf app $BROKER_NAME | grep urls: | awk '{print $2}')
-cf create-service-broker $BROKER_NAME $AUTH_USER $AUTH_PASSWORD http://$BROKER_URL
-cf enable-service-access $BROKER_NAME
+Start the broker.
 
-# Bind an application
-cf create-service $BROKER_NAME $PLAN_NAME $SERVICE_NAME
-cf bind-service my-app $SERVICE_NAME
-cf restage
+```
+$ cf start postgresql
+```
+
+Register a service broker.
+
+```
+$ BROKER_URL=$(cf app postgresql | grep urls: | awk '{print $2}')
+$ cf create-service-broker postgresql $AUTH_USER $AUTH_PASSWORD http://$BROKER_URL
+$ cf enable-service-access postgresql
+```
+
+Then you should see `postgresql` in `$ cf marketplace`
+
+## Binding applications
+
+```
+$ cf create-service postgresql basic pgsql
+$ cf bind-service my-app pgsql
+$ cf restage my-app
 ```
 
 ## Development
 
-1. Copy `.envrc.example` to `.envrc`, then load it by `$ source .envrc` if you don't have the **direnv** package installed.
+1. Copy `.envrc.example` to `.envrc`, then load it by `$ source .envrc` if you don't have the [direnv](http://direnv.net) package installed.
 
-2. `$ godep restore`
+2. Install [godep](https://github.com/tools/godep) and fire `$ godep restore`
