@@ -84,23 +84,6 @@ func (Handler) Update(instanceID string, _ brokerapi.UpdateDetails, _ bool) (bro
 	return false, ErrUpdatingNotSupported
 }
 
-// Returns the list of ports to listen to
-func ports(args ...string) []string {
-	ports := make([]string, 0)
-
-	for _, port := range args {
-		if port != "" {
-			ports = append(ports, port)
-		}
-	}
-
-	if len(ports) == 0 {
-		ports = append(ports, "8080")
-	}
-
-	return ports
-}
-
 // Creates new requests handler
 // Connects it to the database and parses services JSON string
 func newHandler(source string, servicesJSON string, GUID string) (*Handler, error) {
@@ -158,15 +141,15 @@ func main() {
 	http.Handle("/", brokerapi.New(handler, logger, credentials))
 
 	// Boot up
-	for _, port := range ports(os.Getenv("PORT"), os.Getenv("CF_INSTANCE_PORT")) {
-		go func(p string) {
-			logger.Info("boot-up", lager.Data{"port": p})
+	port := os.Getenv("PORT")
 
-			if err := http.ListenAndServe(":"+p, nil); err != nil {
-				logger.Fatal("listen-and-serve", err)
-			}
-		}(port)
+	if port == "" {
+		port = "8080"
 	}
 
-	select {}
+	logger.Info("boot-up", lager.Data{"port": port})
+
+	if err := http.ListenAndServe(":"+port, nil); err != nil {
+		logger.Fatal("listen-and-serve", err)
+	}
 }
