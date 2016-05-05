@@ -116,9 +116,33 @@ func newHandler(source string, servicesJSON string, GUID string) (*Handler, erro
 	return &Handler{conn, services}, nil
 }
 
+// Determines the application name or returns a default value
+func appName(envJSON string, defaultName string) string {
+	env := struct {
+		ApplicationName string `json:"application_name"`
+	}{}
+
+	if envJSON == "" {
+		goto DEFAULT
+	}
+
+	if err := json.Unmarshal([]byte(envJSON), &env); err != nil {
+		panic(err)
+	}
+
+	if env.ApplicationName == "" {
+		goto DEFAULT
+	}
+
+	return env.ApplicationName
+
+DEFAULT:
+	return defaultName
+}
+
 func main() {
 	// Set up logger
-	logger := lager.NewLogger("cf-postgresql-broker")
+	logger := lager.NewLogger(appName(os.Getenv("VCAP_APPLICATION"), "cf-postgresql-broker"))
 	logger.RegisterSink(lager.NewWriterSink(os.Stdout, lager.DEBUG))
 
 	// Set up authentication
