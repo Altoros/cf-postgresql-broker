@@ -1,0 +1,58 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "YlZr0cGSXNk63tGf3nq4f4ELRp8=",
+			"path": "github.com/altoros/pg-puppeteer-go",
+			"revision": "c8b63053512474e1edcb14bb3dc68c1f79fee53c",
+			"revisionTime": "2016-05-09T18:54:53Z"
+		},
+		{
+			"checksumSHA1": "iIUYZyoanCQQTUaWsu8b+iOSPt4=",
+			"origin": "github.com/gorilla/mux/vendor/github.com/gorilla/context",
+			"path": "github.com/gorilla/context",
+			"revision": "0eeaf8392f5b04950925b8a69fe70f110fa7cbfc",
+			"revisionTime": "2016-03-17T21:34:30Z"
+		},
+		{
+			"checksumSHA1": "xF+WqeL9eAlbUkiO2bLghMQzO4k=",
+			"path": "github.com/gorilla/mux",
+			"revision": "0eeaf8392f5b04950925b8a69fe70f110fa7cbfc",
+			"revisionTime": "2016-03-17T21:34:30Z"
+		},
+		{
+			"checksumSHA1": "nE1IVfcH7CNDb9Qn+AtW9Dlmlts=",
+			"origin": "github.com/altoros/pg-puppeteer-go/vendor/github.com/lib/pq",
+			"path": "github.com/lib/pq",
+			"revision": "c8b63053512474e1edcb14bb3dc68c1f79fee53c",
+			"revisionTime": "2016-05-09T18:54:53Z"
+		},
+		{
+			"checksumSHA1": "xppHi82MLqVx1eyQmbhTesAEjx8=",
+			"origin": "github.com/altoros/pg-puppeteer-go/vendor/github.com/lib/pq/oid",
+			"path": "github.com/lib/pq/oid",
+			"revision": "c8b63053512474e1edcb14bb3dc68c1f79fee53c",
+			"revisionTime": "2016-05-09T18:54:53Z"
+		},
+		{
+			"checksumSHA1": "Vnx7QNbxjghzJYXnaG/lddaw8oM=",
+			"path": "github.com/pivotal-cf/brokerapi",
+			"revision": "3abc5864a39f7b204e1daaa0677433f8d4568f81",
+			"revisionTime": "2016-04-26T16:05:27Z"
+		},
+		{
+			"checksumSHA1": "4yHEcDRxN5sqr5UDFs3qr0B4lwA=",
+			"path": "github.com/pivotal-cf/brokerapi/auth",
+			"revision": "3abc5864a39f7b204e1daaa0677433f8d4568f81",
+			"revisionTime": "2016-04-26T16:05:27Z"
+		},
+		{
+			"checksumSHA1": "x8vUU+B8SayhUWxirNbUjq7Hlns=",
+			"path": "github.com/pivotal-golang/lager",
+			"revision": "7639e31ce6622c55c15aa64144b85d5f4873d127",
+			"revisionTime": "2016-03-11T18:00:00Z"
+		}
+	],
+	"rootPath": "github.com/altoros/cf-postgresql-broker"
+}
