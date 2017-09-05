@@ -1,7 +1,7 @@
 ---
 applications:
 - name: cf-postgresql-broker
-  command: ./cf-postgresql-broker
+  command: ./bin/cf-postgresql-broker
   memory: 64M
   buildpack: https://github.com/cloudfoundry/go-buildpack#v1.8.1
   env:
