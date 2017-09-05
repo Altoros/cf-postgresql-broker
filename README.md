@@ -8,8 +8,8 @@ Clone the git repository and compile the package:
 ```
 $ git clone https://github.com/Altoros/cf-postgresql-broker.git
 $ cd cf-postgresql-broker
-$ make build
 ```
+
 
 Push the compiled binary to the Cloud Foundry:
 ```
@@ -42,6 +42,11 @@ $ cf set-env cf-postgresql-broker PG_SERVICES "$PG_SERVICES"
 
 * `PG_SERVICES` can be customized according to [this go library](https://github.com/pivotal-cf/brokerapi/blob/master/catalog.go#L3)
 * `{GUID}` will be replaced with its runtime value
+
+Optional:  If your PostgreSQL server does not use SSL, disable it:
+```
+$ cf set-env cf-postgresql-broker PGSSLMODE "disable"
+```
 
 Start the application and register a service broker:
 ```$AUTH_PASSWORD
